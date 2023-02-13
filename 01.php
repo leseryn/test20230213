@@ -92,6 +92,7 @@ abstract class Car extends VehicleOnGround implements HighwayAvailable {
 	protected function checkMinSpeed(int $speed, int $speedLimit) {
 		if ($speed < $speedLimit) {
 			array_push($this->errorMessages, 'Too Slow.' . "\r\n");
+
 		}
 	}
 
@@ -157,7 +158,6 @@ class Sedan extends Car {
 		} else {
 			$this->checkMinSpeed($speed, 80);
 		}
-		$this->errorMessages = [];
 		$this->checkDriver();
 		$this->checkFuel($consumeFuelAmount);
 	}
@@ -179,10 +179,10 @@ class Sedan extends Car {
 	public function runInHigherSpeed(int $speed = 100) {
 
 		$consumeFuelAmount = intdiv($speed, 4);
-		$this->runCheck("default", $speed, $consumeFuelAmount);
+		$this->runCheck("highway", $speed, $consumeFuelAmount);
 
 		if (!$this->errorMessages) {
-			echo 'This is a sedan run in highway (speed:' . $speed . 'km/h) with ' . $this->passengers . ' passengers.' . "\r\n";
+			echo 'This is a sedan run in a highway (speed:' . $speed . 'km/h) with ' . $this->passengers . ' passengers.' . "\r\n";
 			$this->consumeFuel($consumeFuelAmount);
 		} else {
 			$this->printErrorMessages();
@@ -234,4 +234,4 @@ $scooterA->run()->addFuel(30)->run();
 $sedanB = new Sedan(false);
 $sedanB->run();
 $sedanB->driverOnCar(true)->run();
-$sedanB->run(90)->runInHigherSpeed(70)->runInHigherSpeed()->passengersOnCar(3)->run();
+$sedanB->run(90)->runInHigherSpeed(60)->runInHigherSpeed()->passengersOnCar(3)->run();
